@@ -25,23 +25,19 @@ public class Scoreboard {
     }
 
     public List<String> getSummary() {
-        List<Match> summary = getSummaryHelper();
-        List<String> summaryStrings = new ArrayList<>();
-        for (Match match : summary) {
-            summaryStrings.add(match.getSummary());
-        }
-        return summaryStrings;
-    }
-
-    private List<Match> getSummaryHelper() {
-        List<Match> summary = new ArrayList<>(matches);
-        summary.sort((m1, m2) -> {
+        List<Match> summaryMatches = new ArrayList<>(matches);
+        summaryMatches.sort((m1, m2) -> {
             int scoreComparison = Integer.compare(m2.getTotalScore(), m1.getTotalScore());
             if (scoreComparison != 0) {
                 return scoreComparison;
             }
                 return Integer.compare(matches.indexOf(m1), matches.indexOf(m2));
         });
+
+        List<String> summary = new ArrayList<>();
+        for (Match match : summaryMatches) {
+            summary.add(match.getSummary());
+        }
         return summary;
     }
 

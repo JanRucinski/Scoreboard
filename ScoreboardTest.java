@@ -7,7 +7,6 @@ public class ScoreboardTest {
         testUpdateScore();
         testFinishMatch();
         testGetSummary();
-        System.out.println("All tests passed successfully!");
     }
 
     @Test
