@@ -25,6 +25,6 @@ public class Match {
     }
 
     public String getSummary() {
-        return homeTeam + " " + homeScore + " - " + awayTeam + " " + awayScore;
+        return String.format("%s %d - %s %d", homeTeam, homeScore, awayTeam, awayScore);
     }
 }
