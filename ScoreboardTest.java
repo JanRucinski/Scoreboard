@@ -44,12 +44,15 @@ public class ScoreboardTest {
     public void testGetSummaryReturnsCorrectSummary() {
         scoreboard.startMatch("Team A", "Team B");
         scoreboard.startMatch("Team C", "Team D");
+        scoreboard.startMatch("Team E", "Team F");
+        scoreboard.startMatch("Team G", "Team H");
         scoreboard.updateScore(0, 2, 1);
-        scoreboard.updateScore(1, 1, 1);
         scoreboard.finishMatch(1);
 
         List<String> summary = scoreboard.getSummary();
-        assertEquals(1, summary.size());
-        assertEquals("Team A 2 - Team B 1", summary.get(0));
+        assertEquals(3, summary.size());
+        assertEquals("Team E 0 - Team F 0", summary.get(0));
+        assertEquals("Team G 0 - Team H 0", summary.get(1));
+        assertEquals("Team A 2 - Team B 1", summary.get(2));
     }
 }
