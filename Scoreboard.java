@@ -37,7 +37,13 @@ public class Scoreboard {
 
     private List<Match> getSummaryHelper() {
         List<Match> summary = new ArrayList<>(matches);
-        Collections.sort(summary, Comparator.comparingInt(Match::getTotalScore).reversed());
+        summary.sort((m1, m2) -> {
+            int scoreComparison = Integer.compare(m2.getTotalScore(), m1.getTotalScore());
+            if (scoreComparison != 0) {
+                return scoreComparison;
+            }
+                return Integer.compare(matches.indexOf(m1), matches.indexOf(m2));
+        });
         return summary;
     }
 
