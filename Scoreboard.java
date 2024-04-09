@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Scoreboard {
@@ -26,13 +27,8 @@ public class Scoreboard {
 
     public List<String> getSummary() {
         List<Match> summaryMatches = new ArrayList<>(matches);
-        summaryMatches.sort((m1, m2) -> {
-            int scoreComparison = Integer.compare(m2.getTotalScore(), m1.getTotalScore());
-            if (scoreComparison != 0) {
-                return scoreComparison;
-            }
-                return Integer.compare(matches.indexOf(m1), matches.indexOf(m2));
-        });
+        Comparator<Match> matchComparator = Comparator.comparingInt(Match::getTotalScore).thenComparingInt(matches::indexOf);
+        summaryMatches.sort(matchComparator);
 
         List<String> summary = new ArrayList<>();
         for (Match match : summaryMatches) {
@@ -45,6 +41,10 @@ public class Scoreboard {
         if (matchIndex < 0 || matchIndex >= matches.size()) {
             throw new IllegalArgumentException("Invalid match index");
         }
+    }
+
+    public List<Match> getMatches() {
+        return matches;
     }
 
 }

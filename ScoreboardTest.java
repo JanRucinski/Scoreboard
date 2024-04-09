@@ -1,41 +1,47 @@
-import java.util.List;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
+import static org.junit.Assert.*;
+
 public class ScoreboardTest {
-    public static void main(String[] args) {
-        testStartMatch();
-        testUpdateScore();
-        testFinishMatch();
-        testGetSummary();
+    private Scoreboard scoreboard;
+
+    @Before
+    public void setUp() {
+        scoreboard = new Scoreboard();
+    }
+
+    @After
+    public void tearDown() {
+        scoreboard = null;
     }
 
     @Test
-    public static void testStartMatch() {
-        Scoreboard scoreboard = new Scoreboard();
+    public void testStartMatchAddsMatchToList() {
         scoreboard.startMatch("Team A", "Team B");
-        assert scoreboard.matches.size() == 1 : "Failed to start match";
+        assertEquals(1, scoreboard.getMatches().size());
     }
 
     @Test
-    public static void testUpdateScore() {
-        Scoreboard scoreboard = new Scoreboard();
+    public void testUpdateScoreUpdatesMatchScore() {
         scoreboard.startMatch("Team A", "Team B");
         scoreboard.updateScore(0, 2, 1);
-        assert scoreboard.matches.get(0).homeScore == 2 && scoreboard.matches.get(0).awayScore == 1 :
-                "Failed to update score";
+        assertEquals(2, scoreboard.getMatches().get(0).getHomeScore());
+        assertEquals(1, scoreboard.getMatches().get(0).getAwayScore());
     }
 
     @Test
-    public static void testFinishMatch() {
-        Scoreboard scoreboard = new Scoreboard();
+    public void testFinishMatchRemovesMatchFromList() {
         scoreboard.startMatch("Team A", "Team B");
         scoreboard.finishMatch(0);
-        assert scoreboard.matches.size() == 0 : "Failed to finish match";
+        assertEquals(0, scoreboard.getMatches().size());
     }
 
     @Test
-    public static void testGetSummary() {
-        Scoreboard scoreboard = new Scoreboard();
+    public void testGetSummaryReturnsCorrectSummary() {
         scoreboard.startMatch("Team A", "Team B");
         scoreboard.startMatch("Team C", "Team D");
         scoreboard.updateScore(0, 2, 1);
@@ -43,7 +49,7 @@ public class ScoreboardTest {
         scoreboard.finishMatch(1);
 
         List<String> summary = scoreboard.getSummary();
-        assert summary.size() == 1 : "Incorrect number of matches in summary";
-        assert summary.get(0).equals("Team A 2 - Team B 1") : "Incorrect summary content";
+        assertEquals(1, summary.size());
+        assertEquals("Team A 2 - Team B 1", summary.get(0));
     }
 }
